@@ -16,7 +16,10 @@
   .directive('bookGenres', function() {
     return {
       restrict: 'E',
-      templateUrl: 'partials/book-genres.html'
+      templateUrl: 'partials/book-genres.html',
+      scope: {
+        genres: '='
+      }
     };
   })
 
@@ -33,9 +36,16 @@
       restrict: 'E',
       templateUrl: 'partials/review-form.html',
       replace: true,
-      controller: function () {
+      controller: function() {
         this.showForm = false;
-        this.book = {genres:{}}; 
+        this.book = { genres: {} };
+
+        this.addReview = function(form) {
+          books.push(this.book);
+          this.book = { genres: {} };
+
+          form.$setPristine();
+        };
       },
       controllerAs: 'reviewFormCtrl',
       scope: {
